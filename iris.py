@@ -41,8 +41,9 @@ from sklearn.svm import SVC
 url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
 names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
 num_rows_to_peak = 20
-validation_size = 0.20
+test_size = 0.20
 seed = 7
+k = 10
 scoring = 'accuracy'
 """
 #============================================================================#
@@ -81,14 +82,17 @@ X = array[:,0:4]
 Y = array[:,4]
 
 X_train, X_validation, Y_train, Y_validation = model_selection.train_test_split(
-        X, Y, test_size=validation_size, random_state=seed)
+        X, Y, test_size=test_size, random_state=seed)
 
 """
 #============================================================================#
 #                       BUILD A MODEL                                        #
 #============================================================================#
 """
-
+# These are six different models we will try out. Each model will attempt
+# to create some mathematical function that maps input data (the iris data)
+# to output data (the iris species). The mathematics will be different for
+# each model.
 models = []
 models.append(('LR', LogisticRegression()))
 models.append(('LDA', LinearDiscriminantAnalysis()))
@@ -97,12 +101,20 @@ models.append(('CART', DecisionTreeClassifier()))
 models.append(('NB', GaussianNB()))
 models.append(('SVM', SVC()))
 
-# evaluate each model in turn
+"""
+Evaluate each model through k-fold cross validation. Here, the iris data is 
+partitioned into k subsets. k-1 subsets are used as training data for each
+model to construct a mapping and the last subset is used as the 'test set' 
+for each model so we can see how well it can guess what an iris species is
+based on measurements of a particular iris. The metric to determine 'how well'
+is given by <scoring>.
+"""
 results = []
 names = []
 for name, model in models:
-    kfold = model_selection.KFold(n_splits=10, random_state=seed)
-    cv_results = model_selection.cross_val_score(model, X_train, Y_train, cv=kfold, scoring=scoring)
+    kfold = model_selection.KFold(n_splits=k, random_state=seed)
+    cv_results = model_selection.cross_val_score(model, X_train, Y_train,
+                                                 cv=kfold, scoring=scoring)
     results.append(cv_results)
     names.append(name)
     msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
