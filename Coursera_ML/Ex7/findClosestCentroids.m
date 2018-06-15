@@ -31,7 +31,7 @@ for i=1:length(idx)
     diff_vec = train_ex - centroids;
 
     % Calculate the Euclidean norm of each difference vector
-    distances = vecnorm(diff_vec, 2, 2).^2
+    distances = vecnorm(diff_vec, 2, 2).^2;
 
     % Select the index of the minimum distance, i.e. 'j'
     [m, j] = min(distances);

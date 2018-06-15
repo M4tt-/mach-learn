@@ -18,9 +18,8 @@ Z = zeros(size(X, 1), K);
 %                    projection_k = x' * U(:, k);
 %
 
+% Define the eigenvectors to project onto
+U_reduce = U(:, 1:K);
 
-
-
-% =============================================================
-
-end
+% Project
+Z = X*U_reduce;
