@@ -20,11 +20,11 @@ S = zeros(n);
 %       number of examples).
 %
 
+% Compute covariance matrix
+Sigma = (1./m).*X'*X;
 
-
-
-
-
+% Find principal components through single value decomposition
+[U, S, V] = svd(Sigma);
 
 % =========================================================================
 

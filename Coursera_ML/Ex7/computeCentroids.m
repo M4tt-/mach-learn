@@ -26,12 +26,19 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+% For each centroid
+for i=1:K
 
+    % Find which training examples are assigned to centroid 'i'
+    train_idx = find(idx == i);
 
+    % Get a 2D vector of relevant training examples
+    train_exs = X(train_idx, :);
 
-
-
-
+    % Compute the new mean centroid
+    centroids(i, :) = mean(train_exs);
+    
+end
 
 % =============================================================
 
