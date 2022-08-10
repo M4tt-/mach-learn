@@ -33,4 +33,4 @@ A brief exploration of the "Hello, World!" of machine learning: the iris flower 
 
 - Matt Runyon
 - Coursera (for some templating code)
-- https://machinelearningmastery.com/machine-learning-in-python-step-by-step/
+- https://machinelearningmastery.com/machine-learning-in-python-step-by-step/ (for iris data set code)
